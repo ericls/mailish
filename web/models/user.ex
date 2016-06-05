@@ -4,12 +4,13 @@ defmodule Mailish.User do
   schema "users" do
     field :name, :string
     field :hashed_password, :string
+    field :password, :string, virtual: true
 
     has_many :mails, Mailish.Mail
     timestamps
   end
 
-  @required_fields ~w(name hashed_password)
+  @required_fields ~w(name password)
   @optional_fields ~w()
 
   @doc """
@@ -21,5 +22,7 @@ defmodule Mailish.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> unique_constraint(:name)
   end
+
 end

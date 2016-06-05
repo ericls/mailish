@@ -5,13 +5,19 @@ defmodule Mailish.UserController do
 
   plug :scrub_params, "user" when action in [:create, :update]
 
+  defp hash_password(password) do
+    Comeonin.Bcrypt.hashpwsalt(password)
+  end
+
   def index(conn, _params) do
     users = Repo.all(User)
     render(conn, "index.json", users: users)
   end
 
   def create(conn, %{"user" => user_params}) do
+    import Ecto.Changeset, only: [put_change: 3]
     changeset = User.changeset(%User{}, user_params)
+    changeset = put_change(changeset, :hashed_password, hash_password(changeset.params["password"]))
 
     case Repo.insert(changeset) do
       {:ok, user} ->

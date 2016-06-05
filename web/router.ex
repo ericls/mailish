@@ -22,7 +22,7 @@ defmodule Mailish.Router do
 
   scope "/auth", Mailish do
     pipe_through :api
-    resources "/users", UserController, except: [:new, :edit]
+    resources "/users", UserController, only: [:create, :show]
   end
 
   # Other scopes may use custom stacks.
