@@ -37,6 +37,6 @@ config :mailish, Mailish.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "mailish_dev",
+  database: "mailish_dev_new",
   hostname: "localhost",
   pool_size: 10

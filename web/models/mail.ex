@@ -1,15 +1,17 @@
-defmodule Mailish.User do
+defmodule Mailish.Mail do
   use Mailish.Web, :model
 
-  schema "users" do
-    field :name, :string
-    field :hashed_password, :string
+  schema "mails" do
+    field :subject, :string
+    field :from, :string
+    field :content, :string
+    field :created_at, Ecto.DateTime
+    belongs_to :user, Mailish.User
 
-    has_many :mails, Mailish.Mail
     timestamps
   end
 
-  @required_fields ~w(name hashed_password)
+  @required_fields ~w(subject from content created_at)
   @optional_fields ~w()
 
   @doc """
