@@ -9,7 +9,7 @@ use Mix.Config
 config :mailish, Mailish.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
-  secret_key_base: "PGGjW9qNRRncbQi23cFOTFX2gJQwvN/ZG9AvsdMJ7MCL9r+CNSF1qXatg9EJSxdG",
+  secret_key_base: "some_crazy_things_here",
   render_errors: [accepts: ~w(html json)],
   pubsub: [name: Mailish.PubSub,
            adapter: Phoenix.PubSub.PG2]
