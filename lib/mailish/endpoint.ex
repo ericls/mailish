@@ -32,7 +32,7 @@ defmodule Mailish.Endpoint do
 
   plug Plug.Session,
     store: :cookie,
-    key: "_mailish_key",
+    key: "some_keys",
     signing_salt: "in1CzJr+"
 
   plug Mailish.Router

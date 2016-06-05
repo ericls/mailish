@@ -9,6 +9,18 @@ defmodule Mailish.UserView do
     %{data: render_one(user, Mailish.UserView, "user.json")}
   end
 
+  def render("authenticated.json", _assigns) do
+    %{message: "loged in."}
+  end
+
+  def render("logout.json", _assigns) do
+    %{message: "loged out."}
+  end
+
+  def render("error.json", %{message: message}) do
+    %{error: message}
+  end
+
   def render("user.json", %{user: user}) do
     %{id: user.id,
       name: user.name,
