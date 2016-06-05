@@ -20,6 +20,11 @@ defmodule Mailish.Router do
     get "/", PageController, :index
   end
 
+  scope "/auth", Mailish do
+    pipe_through :api
+    resources "/users", UserController, except: [:new, :edit]
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Mailish do
   #   pipe_through :api
