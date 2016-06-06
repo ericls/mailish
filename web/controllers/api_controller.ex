@@ -66,6 +66,40 @@ defmodule Mailish.ApiController do
       )
   end
 
+  def mailgun_callback(conn, params) do
+    IO.inspect params
+    case params do
+      %{
+        "recipient" => recipient,
+        "subject" => subject,
+        "sender" => sender,
+        "stripped-text" => content
+      } ->
+        [to_name | _] = String.split(recipient, "@")
+        {name, user_id} = case Repo.get_by(User, name: to_name) do
+            %User{:id => user_id, :name => name} ->
+              {name, user_id}
+            nil ->
+              fallback_name = Application.get_env(:mailish, :fallback_name)
+              {
+                fallback_name,
+                Repo.get_by(User, name: fallback_name).id
+              }
+            end
+        Repo.insert(
+          %Mail{
+            subject: subject,
+            from: sender,
+            content: content,
+            user_id: user_id
+          }
+        )
+        conn |> send_resp(200, "Sucess")
+      _ ->
+        conn |> send_resp(400, "hmm") |> halt
+    end
+  end
+
   defp paginate(query, page) do
     case is_integer(page) do
       false -> {page, _} = Integer.parse(page)

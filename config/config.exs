@@ -33,5 +33,7 @@ config :mailish, :mailgun,
   apikey: "key-7e0bd21871baa01ef4be06773f1844cd",
   domain: "mailguntest.shenli.me"
 
+config :mailish, :fallback_name, "eric"
+
 config :mailish, :pagination,
   per_page: 10

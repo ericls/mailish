@@ -32,8 +32,20 @@ defmodule Mailish.UserController do
     end
   end
 
+  defp deleted_login_session(conn) do
+    conn
+    |> delete_session(:user_id)
+    |> delete_session(:loged_in)
+  end
+
   def login(conn, %{"user" => user_params}) do
     user = Repo.get_by(User, name: user_params["name"])
+    if user == nil do
+      conn
+      |> put_status(401)
+      |> deleted_login_session
+      |> render("error.json", message: "no user named #{user_params["name"]}")
+    end
     case Comeonin.Bcrypt.checkpw(user_params["password"], user.hashed_password) do
       true ->
         conn
@@ -43,8 +55,7 @@ defmodule Mailish.UserController do
       _ ->
         conn
         |> put_status(401)
-        |> delete_session(:user_id)
-        |> delete_session(:loged_in)
+        |> deleted_login_session
         |> render("error.json", message: "wrong password")
     end
   end
@@ -53,8 +64,7 @@ defmodule Mailish.UserController do
     case get_session(conn, :loged_in) do
       true ->
         conn
-        |> delete_session(:user_id)
-        |> delete_session(:loged_in)
+        |> deleted_login_session
         |> render("logout.json", %{})
       _ ->
         conn

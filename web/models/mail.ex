@@ -11,7 +11,7 @@ defmodule Mailish.Mail do
     timestamps
   end
 
-  @required_fields ~w(subject from content created_at)
+  @required_fields ~w(subject from content)
   @optional_fields ~w()
 
   @doc """

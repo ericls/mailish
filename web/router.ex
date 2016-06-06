@@ -20,6 +20,10 @@ defmodule Mailish.Router do
     plug :require_login
   end
 
+  pipeline :mailgun do
+    plug :accepts, ["json"]
+  end
+
   def require_login(conn, _params) do
     import Plug.Conn
     case get_session(conn, :loged_in) do
@@ -50,6 +54,11 @@ defmodule Mailish.Router do
     pipe_through :api
     post "/send", ApiController, :send_mail
     get "/sent", ApiController, :sent_mail
+  end
+
+  scope "/mailgun", Mailish do
+    pipe_through :mailgun
+    post "/notify", ApiController, :mailgun_callback
   end
 
   # Other scopes may use custom stacks.
