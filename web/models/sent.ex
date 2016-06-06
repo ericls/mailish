@@ -1,17 +1,17 @@
-defmodule Mailish.User do
+defmodule Mailish.Sent do
   use Mailish.Web, :model
 
-  schema "users" do
-    field :name, :string
-    field :hashed_password, :string
-    field :password, :string, virtual: true
+  schema "sent" do
+    field :subject, :string
+    field :to, {:array, :string}
+    field :content, :string
+    field :created_at, Ecto.DateTime
+    belongs_to :user, Mailish.User
 
-    has_many :mails, Mailish.Mail
-    has_many :sent, Mailish.Sent
     timestamps
   end
 
-  @required_fields ~w(name password)
+  @required_fields ~w(subject to content)
   @optional_fields ~w()
 
   @doc """
@@ -23,7 +23,5 @@ defmodule Mailish.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> unique_constraint(:name)
   end
-
 end

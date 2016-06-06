@@ -1,5 +1,8 @@
 defmodule Mailish.ApiController do
   use Mailish.Web, :controller
+  alias Mailish.User
+  alias Mailish.Mail
+  alias Mailish.Sent
 
   defp mailgun_header() do
     import Base
@@ -22,6 +25,14 @@ defmodule Mailish.ApiController do
       [timeout: 20*1000]
     ) do
       {:ok, res} ->
+        Repo.insert(
+          %Sent{
+            subject: mail_data[:subject],
+            to: mail_data[:to],
+            content: mail_data[:html],
+            user_id: user.id
+          }
+        )
         conn
         |> send_resp(res.status_code, res.body)
         |> halt()
