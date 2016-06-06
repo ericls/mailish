@@ -38,7 +38,9 @@ defmodule Mailish.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.4"},
-     {:httpoison, "~>0.8.3"}]
+     {:httpoison, "~>0.8.3"},
+     {:scrivener, "~> 1.0"},
+     {:scrivener_headers, "~> 1.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

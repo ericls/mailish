@@ -43,4 +43,34 @@ defmodule Mailish.ApiController do
         |> halt()
     end
   end
+
+  def sent_mail(conn, params) do
+    user = Repo.get_by(Mailish.User, id: get_session(conn, :user_id))
+    import Ecto.Query, only: [from: 2]
+    sent = from s in Sent,
+                    where: s.user_id == ^user.id
+    paginated = case params do
+      %{"page" => page} ->
+        sent |> paginate(page)
+        _ ->
+        sent |> paginate(1)
+      end
+    conn
+    |> Scrivener.Headers.paginate(paginated)
+    |> render(
+      "sent_mail.json",
+        sent: paginated.entries,
+        page_number: paginated.page_number,
+        total_page: paginated.total_pages,
+        total_entries: paginated.total_entries
+      )
+  end
+
+  defp paginate(query, page) do
+    case is_integer(page) do
+      false -> {page, _} = Integer.parse(page)
+      _ -> page = page
+    end
+    query |> Repo.paginate(page: page)
+  end
 end

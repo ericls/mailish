@@ -49,6 +49,7 @@ defmodule Mailish.Router do
   scope "/api", Mailish do
     pipe_through :api
     post "/send", ApiController, :send_mail
+    get "/sent", ApiController, :sent_mail
   end
 
   # Other scopes may use custom stacks.
