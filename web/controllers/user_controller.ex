@@ -32,7 +32,6 @@ defmodule Mailish.UserController do
     end
   end
 
-
   def login(conn, %{"user" => user_params}) do
     user = Repo.get_by(User, name: user_params["name"])
     case Comeonin.Bcrypt.checkpw(user_params["password"], user.hashed_password) do

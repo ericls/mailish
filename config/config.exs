@@ -27,3 +27,8 @@ import_config "#{Mix.env}.exs"
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+
+config :mailish, :mailgun,
+  apikey: "key-7e0bd21871baa01ef4be06773f1844cd",
+  domain: "mailguntest.shenli.me"
