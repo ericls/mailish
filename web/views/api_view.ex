@@ -18,6 +18,28 @@ defmodule Mailish.ApiView do
     }
   end
 
+  def render("mails.json", %{
+      mails: mails,
+      page_number: page_number,
+      total_page: total_page,
+      total_entries: total_entries}) do
+    %{
+      page_number: page_number,
+      entries: render_many(mails, Mailish.ApiView, "mail_item.json"),
+      total_page: total_page,
+      total_entries: total_entries
+    }
+    end
+
+  def render("mail_item.json", %{api: mail}) do
+    %{
+      subject: mail.subject,
+      from: mail.from,
+      content: mail.content,
+      inserted_at: mail.inserted_at
+    }
+  end
+
   def render("sent_mail_item.json", %{api: sent}) do
     %{
       subject: sent.subject,

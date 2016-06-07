@@ -66,6 +66,28 @@ defmodule Mailish.ApiController do
       )
   end
 
+  def get_mails(conn, params) do
+    user = Repo.get_by(Mailish.User, id: get_session(conn, :user_id))
+    import Ecto.Query, only: [from: 2]
+    mails = from m in Mail,
+                  where: m.user_id == ^user.id
+    paginated = case params do
+      %{"page" => page} ->
+        mails |> paginate(page)
+      _ ->
+        mails |> paginate(1)
+    end
+    conn
+    |> Scrivener.Headers.paginate(paginated)
+    |> render(
+      "mails.json",
+      mails: paginated.entries,
+      page_number: paginated.page_number,
+      total_page: paginated.total_pages,
+      total_entries: paginated.total_entries
+    )
+  end
+
   def mailgun_callback(conn, params) do
     IO.inspect params
     case params do
