@@ -75,7 +75,11 @@ exports.config = {
       "react-router",
       "redux",
       "react-redux",
-      "material-ui"
+      "material-ui",
+      "react-tap-event-plugin",
+      "redux-logger",
+      "redux-thunk",
+      "jquery"
     ]
   }
 };

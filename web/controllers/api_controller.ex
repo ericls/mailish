@@ -9,6 +9,10 @@ defmodule Mailish.ApiController do
     %{"Authorization" => "Basic " <> Base.encode64("api:" <> Application.get_env(:mailish, :mailgun)[:apikey])}
   end
 
+  def login_status(conn, _params) do
+    conn |> send_resp(200, 'ok') |> halt
+  end
+
   def send_mail(conn, %{"mail" => mail}) do
     mailgun_domain = Application.get_env(:mailish, :mailgun)[:domain]
     user = Repo.get_by(Mailish.User, id: get_session(conn, :user_id))

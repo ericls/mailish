@@ -13,75 +13,39 @@
         url('../fonts/roboto-v15-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
  }
 
-/* Space out content a bit */
-body, form, ul, table {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
+ @font-face {
+   font-family: 'Material Icons';
+   font-style: normal;
+   font-weight: 400;
+   src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+   src: local('Material Icons'),
+        local('MaterialIcons-Regular'),
+        url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+        url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+        url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+ }
 
-/* Phoenix flash messages */
-.alert:empty { display: none; }
+ .material-icons {
+   font-family: 'Material Icons';
+   font-weight: normal;
+   font-style: normal;
+   font-size: 24px;  /* Preferred icon size */
+   display: inline-block;
+   line-height: 1;
+   text-transform: none;
+   letter-spacing: normal;
+   word-wrap: normal;
+   white-space: nowrap;
+   direction: ltr;
 
-/* Phoenix inline forms in links and buttons */
-form.link, form.button {
-  display: inline;
-}
+   /* Support for all WebKit browsers. */
+   -webkit-font-smoothing: antialiased;
+   /* Support for Safari and Chrome. */
+   text-rendering: optimizeLegibility;
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
-.logo {
-  width: 519px;
-  height: 71px;
-  display: inline-block;
-  margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
-  background-size: 519px 71px;
-}
+   /* Support for Firefox. */
+   -moz-osx-font-smoothing: grayscale;
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing {
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-/* Customize container */
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-}
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-}
-
-/* Supporting marketing content */
-.marketing {
-  margin: 35px 0;
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing {
-    padding-right: 0;
-    padding-left: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
-}
+   /* Support for IE. */
+   font-feature-settings: 'liga';
+ }

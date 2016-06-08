@@ -12,7 +12,6 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-import "history"
 
 // Import local files
 //
@@ -20,19 +19,12 @@ import "history"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
-import React from 'react'
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import React from "react"
+import ReactDOM from "react-dom"
+import Root from "./Root"
 
-
-class HelloWorld extends React.Component {
-  render() {
-    return (<h1>Hello World!</h1>)
-  }
-}
 
 ReactDOM.render(
-  <HelloWorld/>,
-  document.getElementById("hello-world")
+  <Root />,
+  document.getElementById("react-root")
 )

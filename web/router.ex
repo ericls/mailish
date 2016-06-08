@@ -3,6 +3,7 @@ defmodule Mailish.Router do
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :redirect_to_index
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
@@ -24,6 +25,13 @@ defmodule Mailish.Router do
     plug :accepts, ["json"]
   end
 
+  def redirect_to_index(conn, _params) do
+    case conn.request_path do
+      "/" -> conn
+      _ -> conn |> redirect(to: "/") |> halt
+    end
+  end
+
   def require_login(conn, _params) do
     import Plug.Conn
     case get_session(conn, :loged_in) do
@@ -37,12 +45,6 @@ defmodule Mailish.Router do
     end
   end
 
-  scope "/", Mailish do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-  end
-
   scope "/auth", Mailish do
     pipe_through :auth
     resources "/users", UserController, only: [:create, :show]
@@ -52,6 +54,7 @@ defmodule Mailish.Router do
 
   scope "/api", Mailish do
     pipe_through :api
+    get "/login_status", ApiController, :login_status
     post "/send", ApiController, :send_mail
     get "/sent", ApiController, :sent_mail
     get "/mails", ApiController, :get_mails
@@ -60,6 +63,13 @@ defmodule Mailish.Router do
   scope "/mailgun", Mailish do
     pipe_through :mailgun
     post "/notify", ApiController, :mailgun_callback
+  end
+
+  scope "/", Mailish do
+    pipe_through :browser # Use the default browser stack
+
+    get "/*path", PageController, :index
+    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
