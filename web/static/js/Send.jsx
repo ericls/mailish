@@ -42,7 +42,7 @@ class Send extends React.Component {
         {"mail": {
           recipients: this.state.to.split(','),
           subject: this.state.subject || '',
-          content: this.state.content
+          body: this.state.content
         }}
       )
     })

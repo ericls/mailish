@@ -13,22 +13,27 @@ import Paper from 'material-ui/Paper';
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 
+import { getSentAsync } from './lib/actions'
+
 import MD5 from './lib/MD5';
 
 import { getMailAsync, setLoginStatus} from './lib/actions'
 
-class Inbox extends React.Component {
+class Sent extends React.Component {
   constructor(props) {
     super(props)
     this.goToMail = this.goToMail.bind(this)
   }
+  componentDidMount() {
+    this.props.dispatch(getSentAsync())
+  }
   goToMail(mailId) {
-    return () => {browserHistory.push(`/mail/${mailId}`)}
+    return () => {browserHistory.push(`/sent/${mailId}`)}
   }
   render() {
-    if(this.props.mails.length === 0) {
+    if(this.props.sent.length === 0) {
       return <Paper zDepth={1} style={{"height": "300px", "textAlign": "center"}}>
-        <p style={{"lineHeight": "300px"}}>You have no incomming emails</p>
+        <p style={{"lineHeight": "300px"}}>You have no sent emails</p>
       </Paper>
     }
     let self = this
@@ -37,11 +42,11 @@ class Inbox extends React.Component {
         <div key={mail.inserted_at}>
           <ListItem
             onClick={self.goToMail(mail.id)}
-            leftAvatar={<Avatar src={`https://www.gravatar.com/avatar/${MD5(mail.from)}?d=mm`} />}
+            leftAvatar={<Avatar src={`https://www.gravatar.com/avatar/${MD5(mail.to[0])}?d=mm`} />}
             primaryText={mail.subject}
             secondaryText={
               <p>
-                <span style={{color: darkBlack}}>{mail.from}</span> --
+                <span style={{color: darkBlack}}>{mail.to}</span> --
                   {mail.content}
                 </p>
               }
@@ -54,7 +59,7 @@ class Inbox extends React.Component {
     return (
       <div className="container">
         <List>
-          {this.props.mails.map(mapMailToItem)}
+          {this.props.sent.map(mapMailToItem)}
         </List>
       </div>
     )
@@ -63,11 +68,11 @@ class Inbox extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    mails: state.mails,
+    sent: state.sent,
     loginStatus: state.loginStatus
   }
 }
 
-Inbox = connect(mapStateToProps)(Inbox)
+Sent = connect(mapStateToProps)(Sent)
 
-export default Inbox
+export default Sent

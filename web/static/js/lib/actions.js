@@ -4,6 +4,7 @@ import { browserHistory } from "react-router"
 export const SET_MAILS = "SET_MAILS"
 export const SET_LOGIN_STATUS = "SET_LOGIN_STATUS"
 export const SET_MAIL = "SET_MAIL"
+export const SET_SENT = "SET_SENT"
 
 export function setMails(entries) {
   return { type: SET_MAILS, entries: entries }
@@ -17,6 +18,10 @@ export function setMail(mailItem) {
   return { type: SET_MAIL, mailItem: mailItem }
 }
 
+export function setSent(entries) {
+  return { type: SET_SENT, entries: entries}
+}
+
 export function getMailAsync() {
   return (dispatch) => {
     return $.ajax({
@@ -27,6 +32,20 @@ export function getMailAsync() {
     })
     .done( res => {
       dispatch(setMails(res["entries"]))
+    })
+  }
+}
+
+export function getSentAsync() {
+  return dispatch => {
+    return $.ajax({
+      type: "GET",
+      url: "/api/sent",
+      contentType: "application/json",
+      dataType: "json"
+    })
+    .done( res => {
+      dispatch(setSent(res["entries"]))
     })
   }
 }

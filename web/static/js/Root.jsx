@@ -16,6 +16,8 @@ import Inbox from "./Inbox"
 import Login from "./Login"
 import Mail from "./Mail"
 import Send from "./Send"
+import Sent from "./Sent"
+import Reg from "./Reg"
 
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
@@ -43,6 +45,7 @@ class App extends React.Component {
     this.goHome = this.goHome.bind(this)
     this.logout = this.logout.bind(this)
     this.goSend = this.goSend.bind(this)
+    this.goSent = this.goSent.bind(this)
   }
   goHome() {
     if(!this.props.loginStatus){
@@ -52,6 +55,9 @@ class App extends React.Component {
   }
   goSend() {
     browserHistory.push("/send")
+  }
+  goSent() {
+    browserHistory.push("/sent")
   }
   logout() {
     $.ajax({
@@ -82,7 +88,7 @@ class App extends React.Component {
             iconElementRight={
               this.props.loginStatus?
               <IconButton>
-                <FontIcon className="material-icons" onClick={this.logout}>exit_to_app</FontIcon>
+                <FontIcon className="material-icons" onClick={this.logout}>power_settings_new</FontIcon>
               </IconButton>
               :
               null
@@ -100,11 +106,17 @@ class App extends React.Component {
             <Tab
               icon={<FontIcon className="material-icons">mail</FontIcon>}
               label="Incoming"
+              onActive={this.goHome}
               />
             <Tab
               icon={<FontIcon className="material-icons">add</FontIcon>}
               label="Compose"
               onActive={this.goSend}
+              />
+            <Tab
+              icon={<FontIcon className="material-icons">send</FontIcon>}
+              label="Sent"
+              onActive={this.goSent}
               />
           </Tabs>
         </main>
@@ -130,8 +142,11 @@ class Root extends React.Component {
           <Route path="/" component={App}>
             <IndexRoute component={Inbox} />
             <Route path="/login" component={Login}/>
+            <Route path="/reg" component={Reg}/>
             <Route path="/mail/:mail_id" component={Mail} />
             <Route path="/send(/:to)" component={Send} />
+            <Route path="/sent" component={Sent} />
+            <Route path="/sent/:mail_id" component={Mail} />
           </Route>
         </Router>
       </Provider>

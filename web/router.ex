@@ -47,7 +47,7 @@ defmodule Mailish.Router do
 
   scope "/auth", Mailish do
     pipe_through :auth
-    resources "/users", UserController, only: [:create, :show]
+    resources "/users", UserController, only: [:create]
     post "/login", UserController, :login
     post "/logout", UserController, :logout
   end

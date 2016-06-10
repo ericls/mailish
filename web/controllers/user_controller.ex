@@ -23,8 +23,9 @@ defmodule Mailish.UserController do
       {:ok, user} ->
         conn
         |> put_status(:created)
-        |> put_resp_header("location", user_path(conn, :show, user))
-        |> render("show.json", user: user)
+        |> put_session(:user_id, user.id)
+        |> put_session(:loged_in, true)
+        |> render("authenticated.json", %{})
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)

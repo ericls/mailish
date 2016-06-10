@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import {
     SET_MAILS,
     SET_LOGIN_STATUS,
-    SET_MAIL
+    SET_MAIL,
+    SET_SENT
 } from './actions'
 
 
@@ -33,10 +34,20 @@ function mailItem(state={from: 'dustet@gmail.com', content: ''}, action){
   }
 }
 
+function sent(state=[], action){
+  switch (action.type) {
+    case SET_SENT:
+      return action.entries
+    default:
+      return state
+  }
+}
+
 let rootApp = combineReducers({
   mails,
   loginStatus,
   mailItem,
+  sent
 })
 
 export default rootApp
