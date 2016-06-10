@@ -92,6 +92,35 @@ defmodule Mailish.ApiController do
     )
   end
 
+  def get_mail(conn, params) do
+    user = Repo.get_by(Mailish.User, id: get_session(conn, :user_id))
+    import Ecto.Query, only: [from: 2]
+    case params do
+      %{"type" => type, "id" => id} ->
+        %{"type" => type, "id" => id} = params
+      _ -> conn |> send_resp(400, "bad request") |> halt
+    end
+    mail = case type do
+      "sent" ->
+        Repo.get_by(Mailish.Sent, id: id)
+
+      "mail" ->
+          Repo.get_by(Mailish.Mail, id: id)
+    end
+    if mail.user_id != user.id do
+      conn |> send_resp(403, "no no no") |> halt
+    end
+    view = case type do
+      "mail" -> "mail_item.json"
+      "sent" -> "sent_mail_item.json"
+    end
+    conn |> render(
+      view,
+      api: mail
+    )
+
+  end
+
   def mailgun_callback(conn, params) do
     IO.inspect params
     case params do

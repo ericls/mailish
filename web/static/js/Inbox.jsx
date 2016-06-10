@@ -18,13 +18,20 @@ import MD5 from './lib/MD5';
 import { getMailAsync, setLoginStatus} from './lib/actions'
 
 class Inbox extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props)
+    this.goToMail = this.goToMail.bind(this)
+  }
+  goToMail(mailId) {
+    return () => {browserHistory.push(`/mail/${mailId}`)}
   }
   render() {
+    let self = this
     let mapMailToItem = function(mail) {
       return (
         <div key={mail.inserted_at}>
           <ListItem
+            onClick={self.goToMail(mail.id)}
             leftAvatar={<Avatar src={`https://www.gravatar.com/avatar/${MD5(mail.from)}?d=mm`} />}
             primaryText={mail.subject}
             secondaryText={

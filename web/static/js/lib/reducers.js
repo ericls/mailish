@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import {
     SET_MAILS,
-    SET_LOGIN_STATUS
+    SET_LOGIN_STATUS,
+    SET_MAIL
 } from './actions'
 
 
@@ -23,9 +24,19 @@ function loginStatus(state=false, action) {
   }
 }
 
+function mailItem(state={from: 'dustet@gmail.com', content: ''}, action){
+  switch (action.type) {
+    case SET_MAIL:
+      return action.mailItem
+    default:
+      return state
+  }
+}
+
 let rootApp = combineReducers({
   mails,
-  loginStatus
+  loginStatus,
+  mailItem,
 })
 
 export default rootApp

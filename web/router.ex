@@ -58,6 +58,7 @@ defmodule Mailish.Router do
     post "/send", ApiController, :send_mail
     get "/sent", ApiController, :sent_mail
     get "/mails", ApiController, :get_mails
+    get "/mail", ApiController, :get_mail
   end
 
   scope "/mailgun", Mailish do

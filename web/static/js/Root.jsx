@@ -9,10 +9,13 @@ import MenuItem from 'material-ui/MenuItem'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FontIcon from 'material-ui/FontIcon'
 import {Tabs, Tab} from 'material-ui/Tabs'
+import Paper from 'material-ui/Paper';
 import $ from "jquery"
 
 import Inbox from "./Inbox"
 import Login from "./Login"
+import Mail from "./Mail"
+import Send from "./Send"
 
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
@@ -39,12 +42,16 @@ class App extends React.Component {
     super(props)
     this.goHome = this.goHome.bind(this)
     this.logout = this.logout.bind(this)
+    this.goSend = this.goSend.bind(this)
   }
   goHome() {
     if(!this.props.loginStatus){
       return
     }
     browserHistory.push("/")
+  }
+  goSend() {
+    browserHistory.push("/send")
   }
   logout() {
     $.ajax({
@@ -81,7 +88,7 @@ class App extends React.Component {
               null
             }
             />
-          {this.props.children}
+            {this.props.children}
           <Tabs
             style={{
               'position': 'absolute',
@@ -97,6 +104,7 @@ class App extends React.Component {
             <Tab
               icon={<FontIcon className="material-icons">add</FontIcon>}
               label="Compose"
+              onActive={this.goSend}
               />
           </Tabs>
         </main>
@@ -122,6 +130,8 @@ class Root extends React.Component {
           <Route path="/" component={App}>
             <IndexRoute component={Inbox} />
             <Route path="/login" component={Login}/>
+            <Route path="/mail/:mail_id" component={Mail} />
+            <Route path="/send(/:to)" component={Send} />
           </Route>
         </Router>
       </Provider>

@@ -36,7 +36,8 @@ defmodule Mailish.ApiView do
       subject: mail.subject,
       from: mail.from,
       content: mail.content,
-      inserted_at: mail.inserted_at
+      inserted_at: mail.inserted_at,
+      id: mail.id
     }
   end
 
@@ -45,7 +46,8 @@ defmodule Mailish.ApiView do
       subject: sent.subject,
       to: sent.to,
       content: sent.content,
-      inserted_at: sent.inserted_at
+      inserted_at: sent.inserted_at,
+      id: sent.id
     }
   end
 
