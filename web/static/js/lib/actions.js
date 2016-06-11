@@ -5,9 +5,14 @@ export const SET_MAILS = "SET_MAILS"
 export const SET_LOGIN_STATUS = "SET_LOGIN_STATUS"
 export const SET_MAIL = "SET_MAIL"
 export const SET_SENT = "SET_SENT"
+export const SET_SNACKBAR = "SET_SNAKEBAR"
 
-export function setMails(entries) {
-  return { type: SET_MAILS, entries: entries }
+export function setMails(mails) {
+  return { type: SET_MAILS, mails: mails }
+}
+
+export function setSnackBar(open, message='') {
+  return { type: SET_SNACKBAR, open: open, message: message}
 }
 
 export function setLoginStatus(status) {
@@ -18,34 +23,43 @@ export function setMail(mailItem) {
   return { type: SET_MAIL, mailItem: mailItem }
 }
 
-export function setSent(entries) {
-  return { type: SET_SENT, entries: entries}
+export function setSent(sent) {
+  return { type: SET_SENT, sent: sent}
 }
 
-export function getMailAsync() {
+export function setSnackBarAsync(open, message){
+  return (dispatch) => {
+    dispatch(setSnackBar(open, message))
+  }
+}
+
+export function getMailAsync(page=1) {
   return (dispatch) => {
     return $.ajax({
       type: "GET",
       url: "/api/mails",
       contentType: "application/json",
-      dataType: "json"
+      dataType: "json",
+      data: {page: page}
     })
     .done( res => {
-      dispatch(setMails(res["entries"]))
+      dispatch(setMails(res))
     })
   }
 }
 
-export function getSentAsync() {
+export function getSentAsync(page=1) {
   return dispatch => {
     return $.ajax({
       type: "GET",
       url: "/api/sent",
       contentType: "application/json",
-      dataType: "json"
+      dataType: "json",
+      data: {page: page}
     })
-    .done( res => {
-      dispatch(setSent(res["entries"]))
+    .done( (res, testStatus, jqXHR) => {
+      console.dir(jqXHR.getAllResponseHeaders())
+      dispatch(setSent(res))
     })
   }
 }

@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { browserHistory } from 'react-router'
+import { setSnackBar } from './lib/actions'
 
 import $ from "jquery"
 
@@ -47,6 +49,10 @@ class Send extends React.Component {
       )
     })
     .done( res=> {
+      this.props.dispatch(setSnackBar(true, "Email sucessfully sent."))
+      setTimeout(
+        () => {this.props.dispatch(setSnackBar(false))}, 2000
+      )
       browserHistory.goBack()
     })
   }
@@ -87,5 +93,7 @@ class Send extends React.Component {
     )
   }
 }
+
+Send = connect()(Send)
 
 export default Send

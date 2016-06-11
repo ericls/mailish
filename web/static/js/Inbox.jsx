@@ -9,6 +9,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
+import FlatButton from 'material-ui/FlatButton';
 
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
@@ -21,6 +22,10 @@ class Inbox extends React.Component {
   constructor(props) {
     super(props)
     this.goToMail = this.goToMail.bind(this)
+    this.changePage = this.changePage.bind(this)
+  }
+  changePage(page) {
+    return () => {this.props.dispatch(getMailAsync(page))}
   }
   goToMail(mailId) {
     return () => {browserHistory.push(`/mail/${mailId}`)}
@@ -34,7 +39,7 @@ class Inbox extends React.Component {
     let self = this
     let mapMailToItem = function(mail) {
       return (
-        <div key={mail.inserted_at}>
+        <div key={mail.id}>
           <ListItem
             onClick={self.goToMail(mail.id)}
             leftAvatar={<Avatar src={`https://www.gravatar.com/avatar/${MD5(mail.from)}?d=mm`} />}
@@ -54,8 +59,18 @@ class Inbox extends React.Component {
     return (
       <div className="container">
         <List>
-          {this.props.mails.map(mapMailToItem)}
+          {this.props.mails.entries.map(mapMailToItem)}
         </List>
+        {
+          this.props.mails.page_number > 1 ?
+            <FlatButton label="Previous" primary={true} onClick={this.changePage(this.props.mails.page_number - 1)}/>
+          : null
+        }
+        {
+          this.props.mails.page_number < this.props.mails.total_page ?
+            <FlatButton className="pull-right" label="Next" primary={true} onClick={this.changePage(this.props.mails.page_number + 1)} />
+          : null
+        }
       </div>
     )
   }

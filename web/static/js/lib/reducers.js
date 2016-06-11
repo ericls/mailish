@@ -3,14 +3,15 @@ import {
     SET_MAILS,
     SET_LOGIN_STATUS,
     SET_MAIL,
-    SET_SENT
+    SET_SENT,
+    SET_SNACKBAR
 } from './actions'
 
 
-function mails(state=[], action) {
+function mails(state={entries: [], page_number: 1, total_page: 1}, action) {
   switch (action.type) {
     case SET_MAILS:
-      return action.entries
+      return action.mails
     default:
       return state
   }
@@ -34,10 +35,19 @@ function mailItem(state={from: 'dustet@gmail.com', content: ''}, action){
   }
 }
 
-function sent(state=[], action){
+function sent(state={entries:[], page_number: 1, total_page: 1}, action){
   switch (action.type) {
     case SET_SENT:
-      return action.entries
+      return action.sent
+    default:
+      return state
+  }
+}
+
+function snackBar(state={open: false, message: ''}, action){
+  switch (action.type) {
+    case SET_SNACKBAR:
+      return {open: action.open, message: action.message}
     default:
       return state
   }
@@ -47,7 +57,8 @@ let rootApp = combineReducers({
   mails,
   loginStatus,
   mailItem,
-  sent
+  sent,
+  snackBar
 })
 
 export default rootApp

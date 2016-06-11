@@ -10,6 +10,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import FontIcon from 'material-ui/FontIcon'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import Paper from 'material-ui/Paper';
+import Snackbar from 'material-ui/Snackbar';
 import $ from "jquery"
 
 import Inbox from "./Inbox"
@@ -94,10 +95,12 @@ class App extends React.Component {
               null
             }
             />
+          <div style={{"marginBottom": "72px"}}>
             {this.props.children}
+          </div>
           <Tabs
             style={{
-              'position': 'absolute',
+              'position': 'fixed',
               'width': '100%',
               'bottom': 0,
               'display': !this.props.loginStatus ? 'none' : 'block'
@@ -119,16 +122,21 @@ class App extends React.Component {
               onActive={this.goSent}
               />
           </Tabs>
+          <Snackbar
+            open={this.props.snackBar.open}
+            message={this.props.snackBar.message}
+            autoHideDuration={4000}
+            />
         </main>
         </MuiThemeProvider>
-
     )
   }
 }
 
 function mapStateToProps(state) {
   return {
-    loginStatus: state.loginStatus
+    loginStatus: state.loginStatus,
+    snackBar: state.snackBar
   }
 }
 

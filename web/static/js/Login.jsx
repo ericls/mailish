@@ -35,6 +35,7 @@ class Login extends React.Component {
       data: JSON.stringify({"user": this.state})
     })
     .done( res=> {
+      this.props.dispatch(getMailAsync())
       this.props.dispatch(getLoginStatusAsync())
       browserHistory.push("/")
     })
