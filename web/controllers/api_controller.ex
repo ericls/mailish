@@ -122,7 +122,6 @@ defmodule Mailish.ApiController do
   end
 
   def mailgun_callback(conn, params) do
-    IO.inspect params
     case params do
       %{
         "recipient" => recipient,

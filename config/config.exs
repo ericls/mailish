@@ -19,16 +19,6 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
-
-# Configure phoenix generators
-config :phoenix, :generators,
-  migration: true,
-  binary_id: false
-
-
 config :mailish, :mailgun,
   apikey: "key-7e0bd21871baa01ef4be06773f1844cd",
   domain: "mailguntest.shenli.me"
@@ -37,3 +27,12 @@ config :mailish, :fallback_name, "eric"
 
 config :mailish, :pagination,
   per_page: 10
+  
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"
+
+# Configure phoenix generators
+config :phoenix, :generators,
+  migration: true,
+  binary_id: false
