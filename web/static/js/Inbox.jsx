@@ -31,7 +31,7 @@ class Inbox extends React.Component {
     return () => {browserHistory.push(`/mail/${mailId}`)}
   }
   render() {
-    if(this.props.mails.length === 0) {
+    if(this.props.mails.entries.length === 0) {
       return <Paper zDepth={1} style={{"height": "300px", "textAlign": "center"}}>
         <p style={{"lineHeight": "300px"}}>You have no incomming emails</p>
       </Paper>

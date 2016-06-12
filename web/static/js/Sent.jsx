@@ -36,7 +36,7 @@ class Sent extends React.Component {
     return () => {browserHistory.push(`/sent/${mailId}`)}
   }
   render() {
-    if(this.props.sent.length === 0) {
+    if(this.props.sent.entries.length === 0) {
       return <Paper zDepth={1} style={{"height": "300px", "textAlign": "center"}}>
         <p style={{"lineHeight": "300px"}}>You have no sent emails</p>
       </Paper>
